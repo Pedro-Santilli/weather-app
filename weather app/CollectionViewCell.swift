@@ -18,7 +18,7 @@ class CollectionViewCell: UICollectionViewCell {
         stackview.directionalLayoutMargins = NSDirectionalEdgeInsets(top: 8, leading: 8, bottom: 8, trailing: 8)
         stackview.translatesAutoresizingMaskIntoConstraints = false
         stackview.layer.borderWidth = 1
-        stackview.layer.borderColor = UIColor.contrastColor?.cgColor
+        stackview.layer.borderColor = UIColor.contrastColor?.withAlphaComponent(0.5).cgColor
         stackview.layer.cornerRadius = 20
         return stackview
     }()

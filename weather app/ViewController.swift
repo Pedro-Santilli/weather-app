@@ -132,7 +132,24 @@ class ViewController: UIViewController{
         collectionView.register(CollectionViewCell.self, forCellWithReuseIdentifier: CollectionViewCell.indentiifier)
         return collectionView
     }()
-
+    private lazy var dailyLabel: UILabel = {
+       let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.font = UIFont.systemFont(ofSize: 16,weight: .semibold)
+        label.text = "PROXIMOS DIAS"
+        label.textColor = UIColor.contrastColor
+        label.textAlignment = .center
+        return label
+    }()
+    private lazy var dailytableView: UITableView = {
+        let tableView = UITableView()
+        tableView.translatesAutoresizingMaskIntoConstraints = false
+        tableView.backgroundColor = .clear
+        tableView.dataSource = self
+        tableView.register(dailyTableViewCell.self, forCellReuseIdentifier: dailyTableViewCell.indentiifier)
+        tableView.separatorColor = UIColor.contrastColor
+        return tableView
+    }()
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -149,6 +166,8 @@ class ViewController: UIViewController{
         view.addSubview(statsStackView)
         view.addSubview(previsionLabel)
         view.addSubview(previsionCollectionView)
+        view.addSubview(dailyLabel)
+        view.addSubview(dailytableView)
         headerView.addSubview(citylabel)
         headerView.addSubview(temperaturelabel)
         headerView.addSubview(weatherIcon)
@@ -192,6 +211,15 @@ class ViewController: UIViewController{
             previsionCollectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             previsionCollectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
         ])
+        NSLayoutConstraint.activate([
+            dailyLabel.topAnchor.constraint(equalTo: previsionCollectionView.bottomAnchor, constant: 29),
+            dailyLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 35),
+            dailyLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -35),
+            dailytableView.topAnchor.constraint(equalTo: dailyLabel.bottomAnchor, constant: 30),
+            dailytableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            dailytableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            dailytableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
+        ])
     }
 }
 
@@ -202,6 +230,16 @@ extension ViewController: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CollectionViewCell.indentiifier, for: indexPath)
+        return cell
+    }
+}
+extension ViewController: UITableViewDataSource {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+            return 10
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: dailyTableViewCell.indentiifier, for: indexPath)
         return cell
     }
 }
